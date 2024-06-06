@@ -15,6 +15,7 @@ def api_home(request, *args, **kwargs):
     #    data['title'] = model_data.title
     #    data['content'] = model_data.content
     #    data['price'] = model_data.price
+    # a small change to test the repo pull
         """
         serialization:
         # model instance (model_data)
