@@ -1,10 +1,18 @@
-import json
+# import json
 from django.forms.models import model_to_dict
-from django.http import JsonResponse
+# from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from products.models import Product
 
+@api_view(["GET"])
 def api_home(request, *args, **kwargs):
+    """
+    DRF API View
+    """
+    #if request.method != "POST":
+    #    return Response({"detail": "GET not allowed"}, status=405)
     model_data = Product.objects.all().order_by("?").first()
     data = {}
     if model_data:
@@ -21,7 +29,8 @@ def api_home(request, *args, **kwargs):
         # turn a Python dict
         # return Json to my client
         """
-    return JsonResponse(data)
+    #return JsonResponse(data)
+    return Response(data)
 """
 def api_home(request, *args, **kwargs):
     # print(dir(request))
