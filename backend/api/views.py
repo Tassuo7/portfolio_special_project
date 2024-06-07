@@ -1,23 +1,29 @@
 # import json
 from django.forms.models import model_to_dict
-# from django.http import JsonResponse
+#from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from products.models import Product
 from products.serializers import ProductSerializer
 
-@api_view(["GET"])
+@api_view(["POST"])
 def api_home(request, *args, **kwargs):
     """
     DRF API View
     """
+    serializer = ProductSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        #instance = serializer.save()
+        print(serializer.data)
+        return Response(serializer.data)
+    return Response({"invalid": "not good data"}, status=400)
     #if request.method != "POST":
     #    return Response({"detail": "GET not allowed"}, status=405)
-    instance = Product.objects.all().order_by("?").first()
-    data = {}
-    if instance:
-        data = ProductSerializer(instance).data
+   # instance = Product.objects.all().order_by("?").first()
+    #data = {}
+    #if instance:
+    #    data = ProductSerializer(instance).data
        # data = model_to_dict(instance, fields=['id', 'title', 'price', 'discount_price', "get_discount_val"])
       #  data = model_to_dict(model_data)
       # ***************** instance
@@ -25,14 +31,13 @@ def api_home(request, *args, **kwargs):
     #    data['title'] = model_data.title
     #    data['content'] = model_data.content
     #    data['price'] = model_data.price
-        """
+    """
         serialization:
         # model instance (model_data)
         # turn a Python dict
         # return Json to my client
-        """
+    """
     #return JsonResponse(data)
-    return Response(data)
 """
 def api_home(request, *args, **kwargs):
     # print(dir(request))
