@@ -4,7 +4,7 @@ from rest_framework.reverse import reverse
 from .models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
-    discount = serializers.SerializerMethodField(read_only=True)
+    commission = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField(read_only=True)
     url = serializers.HyperlinkedIdentityField(
         view_name='product-detail',
@@ -20,8 +20,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'price',
-            'discount_price',
-            'discount',
+            'off_commission_price',
+            'commission',
         ]
 
     def get_edit_url(self, obj):
@@ -31,12 +31,12 @@ class ProductSerializer(serializers.ModelSerializer):
             return None
         return reverse("product-edit", kwargs={"pk": obj.pk}, request=request)
 
-    def get_discount(self, obj):
+    def get_commission(self, obj):
         if not hasattr(obj, 'id'):
             return None
         if not isinstance(obj, Product):
             return None
-        return obj.get_discount_val()
+        return obj.get_commission_val()
         #try:
         #    return obj.get_discount_val()
         #except:
